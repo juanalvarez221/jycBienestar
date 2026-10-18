@@ -1,0 +1,99 @@
+<section class="page container">
+  <div class="layout">
+    <div>
+      <p class="eyebrow">Pedido discreto</p>
+      <h1>Contraentrega a tu puerta</h1>
+      <p class="intro">
+        Completa tus datos. Empaque sellado. Pagas cuando recibes.
+      </p>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+        <div class="field">
+          <label for="name">Nombre completo</label>
+          <input id="name" formControlName="customerName" autocomplete="name" />
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="phone">Celular</label>
+            <input id="phone" formControlName="customerPhone" autocomplete="tel" />
+          </div>
+          <div class="field">
+            <label for="email">Correo (opcional)</label>
+            <input id="email" type="email" formControlName="customerEmail" autocomplete="email" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="address">Dirección</label>
+          <input id="address" formControlName="addressLine" autocomplete="street-address" />
+        </div>
+        <div class="field">
+          <label for="barrio">Barrio</label>
+          <input id="barrio" formControlName="neighborhood" />
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="depto">Departamento</label>
+            <select id="depto" formControlName="departmentCode">
+              @for (d of departments(); track d.code) {
+                <option [value]="d.code">{{ d.name }}</option>
+              }
+            </select>
+          </div>
+          <div class="field">
+            <label for="muni">Municipio</label>
+            <select id="muni" formControlName="municipalityCode">
+              <option value="" disabled>Selecciona</option>
+              @for (m of municipalities(); track m.code) {
+                <option [value]="m.code">{{ m.name }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="notes">Notas para la entrega</label>
+          <textarea id="notes" rows="3" formControlName="notes"></textarea>
+        </div>
+
+        <label class="checkbox">
+          <input type="checkbox" formControlName="acceptedTerms" />
+          <span>
+            Acepto los
+            <a routerLink="/terminos" target="_blank">términos y condiciones</a>
+            y la
+            <a routerLink="/privacidad" target="_blank">política de privacidad</a>.
+          </span>
+        </label>
+
+        @if (error()) {
+          <p class="form-error">{{ error() }}</p>
+        }
+
+        <button class="btn btn-primary" type="submit" [disabled]="submitting()">
+          {{ submitting() ? 'Enviando…' : 'Confirmar pedido' }}
+        </button>
+      </form>
+    </div>
+
+    <aside class="summary">
+      <h2>Resumen</h2>
+      @for (item of cart.items(); track item.product.id) {
+        <div class="line">
+          <span>{{ item.quantity }}× {{ item.product.name }}</span>
+          <strong>{{ item.product.priceCents * item.quantity | cop }}</strong>
+        </div>
+      }
+      <div class="line muted">
+        <span>Envío {{ shipping()?.zoneLabel || '' }}</span>
+        <strong>{{ shipping()?.feeCents ?? 0 | cop }}</strong>
+      </div>
+      @if (shipping()?.etaLabel) {
+        <p class="eta">{{ shipping()?.etaLabel }}</p>
+      }
+      <div class="total">
+        <span>Total</span>
+        <strong>{{ totalCents() | cop }}</strong>
+      </div>
+      <p class="pay">Pago contraentrega · sin pasarela en línea</p>
+    </aside>
+  </div>
+</section>

@@ -1,0 +1,71 @@
+<section class="page container">
+  <div class="head">
+    <div>
+      <p class="eyebrow">Operación</p>
+      <h1>Panel J&amp;C Bienestar</h1>
+    </div>
+    @if (auth.isLoggedIn()) {
+      <button class="btn btn-ghost" type="button" (click)="logout()">Salir</button>
+    }
+  </div>
+
+  @if (!auth.isLoggedIn()) {
+    <form class="login" [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="field">
+        <label>Correo</label>
+        <input formControlName="email" />
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" formControlName="password" />
+      </div>
+      @if (error()) { <p class="err">{{ error() }}</p> }
+      <button class="btn btn-primary" type="submit">Entrar</button>
+    </form>
+  } @else {
+    @if (metrics(); as m) {
+      <div class="metrics">
+        <article><span>Pedidos</span><strong>{{ m['total'] }}</strong></article>
+        <article><span>Entregados</span><strong>{{ m['delivered'] }}</strong></article>
+        <article><span>Cancelados</span><strong>{{ m['cancelled'] }}</strong></article>
+        <article><span>Devoluciones</span><strong>{{ m['returned'] }}</strong></article>
+        <article><span>Ingresos</span><strong>{{ m['revenueCents'] | cop }}</strong></article>
+      </div>
+    }
+
+    <h2>Productos</h2>
+    <div class="table">
+      @for (p of products(); track p.id) {
+        <div class="row">
+          <div>
+            <strong>{{ p.name }}</strong>
+            <p>{{ p.priceCents | cop }} · stock {{ p.stock }}</p>
+          </div>
+          <div class="edits">
+            <input type="number" [value]="p.priceCents / 100" (change)="savePrice(p, $any($event.target).value)" placeholder="Precio COP" />
+            <input type="number" [value]="p.stock" (change)="saveStock(p, $any($event.target).value)" placeholder="Stock" />
+          </div>
+        </div>
+      }
+    </div>
+
+    <h2>Pedidos</h2>
+    <div class="table">
+      @for (o of orders(); track o.id) {
+        <div class="row order">
+          <div>
+            <strong>{{ o.orderNumber }}</strong>
+            <p>{{ o.customerName }} · {{ o.customerPhone }} · {{ o.totalCents | cop }}</p>
+            <p class="muted">{{ o.addressLine }} · {{ o.status }}</p>
+          </div>
+          <div class="actions">
+            <button type="button" (click)="setStatus(o.id, 'PREPARING')">Preparar</button>
+            <button type="button" (click)="setStatus(o.id, 'SHIPPED')">Enviar</button>
+            <button type="button" (click)="setStatus(o.id, 'DELIVERED')">Entregar</button>
+            <button type="button" (click)="setStatus(o.id, 'CANCELLED')">Cancelar</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</section>

@@ -1,0 +1,12 @@
+{
+  "name": "jyc-bienestar",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:api": "npm run start:dev --prefix apps/api",
+    "dev:web": "npm run start --prefix apps/web",
+    "build": "npm run build --prefix apps/api && npm run build --prefix apps/web",
+    "db:seed": "npm run prisma:seed --prefix apps/api",
+    "test:api": "npm test --prefix apps/api -- --testPathPatterns=create-order.dto.spec"
+  }
+}

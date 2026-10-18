@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" fill="none">
+  <rect width="800" height="1000" fill="#0F2A1F"/>
+  <rect x="220" y="140" width="360" height="720" rx="24" fill="#1A3F3A" stroke="#C4A574" stroke-width="2"/>
+  <rect x="250" y="200" width="300" height="120" rx="8" fill="#163528"/>
+  <text x="400" y="255" text-anchor="middle" fill="#C4A574" font-family="Georgia, serif" font-size="28">J&amp;C Bienestar</text>
+  <text x="400" y="290" text-anchor="middle" fill="#F3EEE4" font-family="Georgia, serif" font-size="36">Power Sex</text>
+  <text x="400" y="480" text-anchor="middle" fill="#F3EEE4" font-family="Arial, sans-serif" font-size="20" opacity="0.8">Jarabe 500 ml</text>
+  <circle cx="400" cy="600" r="48" stroke="#C4A574" stroke-width="1.5" fill="none"/>
+  <text x="400" y="780" text-anchor="middle" fill="#C4A574" font-family="Arial, sans-serif" font-size="14" letter-spacing="3">PRESENTACIÓN</text>
+</svg>

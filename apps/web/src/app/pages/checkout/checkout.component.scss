@@ -1,0 +1,95 @@
+.page {
+  padding: var(--space-7) 0 var(--space-8);
+}
+
+.layout {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.eyebrow {
+  color: var(--champagne);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  margin-bottom: 0.5rem;
+}
+
+.intro {
+  color: var(--mist);
+  margin-bottom: 1.75rem;
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+}
+
+.row {
+  display: grid;
+  gap: 1rem;
+}
+
+.form-error {
+  color: #e8a0a0;
+}
+
+.summary {
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, rgba(26, 63, 58, 0.55), rgba(15, 42, 31, 0.8));
+  height: fit-content;
+}
+
+.summary h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.line {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(243, 238, 228, 0.08);
+  font-size: 0.95rem;
+}
+
+.line.muted {
+  color: var(--mist);
+}
+
+.eta {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--champagne-bright);
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
+
+.pay {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: rgba(243, 238, 228, 0.55);
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: 1.35fr 0.85fr;
+    align-items: start;
+  }
+
+  .row {
+    grid-template-columns: 1fr 1fr;
+  }
+}

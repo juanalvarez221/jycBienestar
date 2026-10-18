@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: jyc-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: jyc
+      POSTGRES_PASSWORD: jyc_dev_password
+      POSTGRES_DB: jyc_bienestar
+    ports:
+      - "5432:5432"
+    volumes:
+      - jyc_pg_data:/var/lib/postgresql/data
+
+volumes:
+  jyc_pg_data:

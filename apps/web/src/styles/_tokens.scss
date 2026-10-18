@@ -1,0 +1,36 @@
+:root {
+  --forest: #0f2a1f;
+  --forest-mid: #163528;
+  --petrol: #1a3f3a;
+  --petrol-soft: #2a5550;
+  --ivory: #f3eee4;
+  --ivory-deep: #e8e0d2;
+  --carbon: #121412;
+  --carbon-soft: #1c1f1c;
+  --champagne: #c4a574;
+  --champagne-bright: #d4b896;
+  --mist: rgba(243, 238, 228, 0.72);
+  --line: rgba(196, 165, 116, 0.28);
+  --danger: #a63d3d;
+  --ok: #2f6b4f;
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --space-9: 7rem;
+
+  --radius-sm: 2px;
+  --radius: 4px;
+  --max: 1120px;
+  --header-h: 4.25rem;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}

@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.angular/
+coverage/
+.env
+.env.local
+*.log
+.DS_Store
+apps/api/prisma/*.db
+apps/api/prisma/*.db-journal
+apps/api/prisma/dev.db*
+.vercel
+.idea/
+*.tgz

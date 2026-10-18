@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  sku           String   @unique
+  name          String
+  slug          String   @unique
+  tagline       String?
+  description   String
+  netContent    String
+  ingredients   String
+  usageText     String
+  manufacturer  String?
+  priceCents    Int
+  stock         Int      @default(0)
+  imageUrl      String?
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  orderItems    OrderItem[]
+}
+
+model GeoDepartment {
+  code          String   @id
+  name          String
+  municipalities GeoMunicipality[]
+}
+
+model GeoMunicipality {
+  code           String   @id
+  name           String
+  departmentCode String
+  department     GeoDepartment @relation(fields: [departmentCode], references: [code])
+  isPriority     Boolean  @default(false)
+  shippingRates  ShippingRate[]
+}
+
+model ShippingRate {
+  id             String   @id @default(cuid())
+  municipalityCode String?
+  municipality   GeoMunicipality? @relation(fields: [municipalityCode], references: [code])
+  zoneLabel      String?
+  feeCents       Int
+  etaLabel       String   @default("1-2 días hábiles")
+  active         Boolean  @default(true)
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+}
+
+model SiteConfig {
+  id                 String @id @default("default")
+  contactPhone       String?
+  contactWhatsapp    String?
+  contactEmail       String?
+  termsVersion       String @default("1.0")
+  termsHtml          String
+  privacyHtml        String
+  defaultShippingCents Int  @default(8000)
+}
+
+model Order {
+  id               String   @id @default(cuid())
+  orderNumber      String   @unique
+  customerName     String
+  customerPhone    String
+  customerEmail    String?
+  addressLine      String
+  neighborhood     String?
+  departmentCode   String
+  municipalityCode String
+  notes            String?
+  subtotalCents    Int
+  shippingCents    Int
+  totalCents       Int
+  paymentMethod    String   @default("COD")
+  acceptedTermsAt  DateTime
+  status           String   @default("RECEIVED")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  items            OrderItem[]
+  statusEvents     OrderStatusEvent[]
+}
+
+model OrderItem {
+  id          String  @id @default(cuid())
+  orderId     String
+  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product @relation(fields: [productId], references: [id])
+  productName String
+  unitPriceCents Int
+  quantity    Int
+}
+
+model OrderStatusEvent {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status    String
+  note      String?
+  createdAt DateTime @default(now())
+}

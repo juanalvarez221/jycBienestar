@@ -1,0 +1,135 @@
+<section class="hero">
+  <div class="hero-wash" aria-hidden="true"></div>
+  <div class="container hero-grid">
+    <div class="hero-copy rise">
+      <p class="brand-lockup">J&amp;C Bienestar</p>
+      <h1>Energía después del camello.</h1>
+      <p class="lede rise-delay">
+        Para el que se levanta temprano, se traga el taco y llega fundido —
+        y todavía quiere estar presente en casa.
+      </p>
+      <div class="cta-row rise-delay-2">
+        <a class="btn btn-primary" routerLink="/checkout">Pedir a domicilio</a>
+        <a class="btn btn-ghost" href="#producto">Ver presentación 500 ml</a>
+      </div>
+      <p class="hero-meta">Medellín · Itagüí · Bello · Valle de Aburrá · Contraentrega</p>
+    </div>
+  </div>
+</section>
+
+<section class="empathy" id="historia">
+  <div class="container empathy-grid">
+    <div>
+      <p class="eyebrow">El día de Mateo</p>
+      <h2>5:30 AM. Autopista Sur. Nueve horas de camello.</h2>
+    </div>
+    <div class="empathy-body">
+      <p>
+        Llegas a las siete, el cuerpo pedido prestado. Quieres compartir,
+        reírte, estar ahí — no quedarte dormido viendo Netflix.
+      </p>
+      <p>
+        No buscas un show. Buscas <strong>ritmo</strong>: energía limpia para
+        cerrar el día como te gusta, sin vueltas en droguería.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="product" id="producto">
+  <div class="container product-grid">
+    <div class="product-visual">
+      <div class="visual-frame">
+        <img
+          [src]="product()?.imageUrl || '/assets/product-placeholder.svg'"
+          alt="Power Sex Jarabe 500 ml — J&C Bienestar"
+        />
+      </div>
+    </div>
+    <div class="product-copy">
+      <p class="eyebrow">Presentación</p>
+      <h2>{{ product()?.name || 'Power Sex Jarabe 500 ml' }}</h2>
+      <p class="tagline">{{ product()?.tagline || 'Energía después del camello' }}</p>
+      <p class="desc">{{ product()?.description }}</p>
+      <dl class="facts">
+        <div>
+          <dt>Contenido</dt>
+          <dd>{{ product()?.netContent || '500 ml' }}</dd>
+        </div>
+        <div>
+          <dt>Precio</dt>
+          <dd>{{ product()?.priceCents | cop }}</dd>
+        </div>
+        <div>
+          <dt>Disponibilidad</dt>
+          <dd>{{ (product()?.stock || 0) > 0 ? 'En stock' : 'Agotado' }}</dd>
+        </div>
+      </dl>
+      <div class="cta-row">
+        <button
+          class="btn btn-primary"
+          type="button"
+          [disabled]="!product() || (product()?.stock || 0) < 1"
+          (click)="addToCart()"
+        >
+          Agregar a la bolsa
+        </button>
+        <a class="btn btn-ghost" routerLink="/producto/power-sex-jarabe-500ml">
+          Ver ficha completa
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="objections">
+  <div class="container">
+    <p class="eyebrow">Sin vueltas</p>
+    <h2>Lo que Mateo necesita oír</h2>
+    <div class="obj-grid">
+      <article>
+        <h3>Natural, en casa</h3>
+        <p>
+          Una presentación en jarabe para el hogar. Sin fila en droguería,
+          sin la incomodidad de pedir pastillas en el mostrador.
+        </p>
+      </article>
+      <article>
+        <h3>Caja sellada</h3>
+        <p>
+          Empaque discreto. El portero ve un pedido de J&amp;C Bienestar —
+          nada más.
+        </p>
+      </article>
+      <article>
+        <h3>Pagas al recibir</h3>
+        <p>
+          Contraentrega en Medellín y el Valle. Revisas, recibes, pagas.
+          Así de claro.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="ship" id="envio">
+  <div class="container ship-panel">
+    <div>
+      <p class="eyebrow">Cobertura</p>
+      <h2>Del Valle para el Valle.</h2>
+      <p>
+        Priorizamos Medellín, Itagüí, Bello, Envigado, Sabaneta y el resto
+        del Aburrá. También despachamos al resto del país con flete según zona.
+      </p>
+    </div>
+    <a class="btn btn-primary" routerLink="/checkout">Pedir ahora</a>
+  </div>
+</section>
+
+<section class="close">
+  <div class="container close-inner">
+    <h2>Hoy también cuenta.</h2>
+    <p>Recupera energía para lo que importa cuando llega la noche.</p>
+    <a class="btn btn-primary" routerLink="/checkout">Confirmar pedido a domicilio</a>
+  </div>
+</section>
