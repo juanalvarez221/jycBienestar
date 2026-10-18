@@ -12,10 +12,10 @@ import { OrdersService } from '../orders/orders.service';
 import { ProductsService } from '../products/products.service';
 import { UpdateProductDto } from '../products/dto/update-product.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { ORDER_STATUSES } from '../orders/order-status';
+import { ESTADOS_PEDIDO } from '../orders/order-status';
 
 class UpdateStatusDto {
-  @IsIn([...ORDER_STATUSES])
+  @IsIn([...ESTADOS_PEDIDO])
   status!: string;
 
   @IsOptional()

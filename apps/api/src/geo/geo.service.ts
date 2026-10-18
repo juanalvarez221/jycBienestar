@@ -70,7 +70,7 @@ export class GeoService {
     });
     return {
       feeCents: config?.defaultShippingCents ?? 12000,
-      etaLabel: '2-4 días hábiles',
+      etaLabel: '2 a 4 días hábiles',
       zoneLabel: 'Resto del país',
     };
   }

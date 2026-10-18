@@ -94,13 +94,13 @@ export class OrdersService {
         subtotalCents: subtotal,
         shippingCents,
         totalCents: subtotal + shippingCents,
-        paymentMethod: 'COD',
+        paymentMethod: 'CONTRAENTREGA',
         acceptedTermsAt: new Date(),
-        status: 'RECEIVED',
+        status: 'RECIBIDO',
         items: { create: lineItems },
         statusEvents: {
           create: {
-            status: 'RECEIVED',
+            status: 'RECIBIDO',
             note: 'Pedido recibido — pago contraentrega',
           },
         },
@@ -143,31 +143,38 @@ export class OrdersService {
   }
 
   async metrics() {
-    const [total, delivered, cancelled, returned, preparing, shipped, received] =
-      await Promise.all([
-        this.prisma.order.count(),
-        this.prisma.order.count({ where: { status: 'DELIVERED' } }),
-        this.prisma.order.count({ where: { status: 'CANCELLED' } }),
-        this.prisma.order.count({ where: { status: 'RETURNED' } }),
-        this.prisma.order.count({ where: { status: 'PREPARING' } }),
-        this.prisma.order.count({ where: { status: 'SHIPPED' } }),
-        this.prisma.order.count({ where: { status: 'RECEIVED' } }),
-      ]);
+    const [
+      total,
+      entregados,
+      cancelados,
+      devueltos,
+      enPreparacion,
+      enviados,
+      recibidos,
+    ] = await Promise.all([
+      this.prisma.order.count(),
+      this.prisma.order.count({ where: { status: 'ENTREGADO' } }),
+      this.prisma.order.count({ where: { status: 'CANCELADO' } }),
+      this.prisma.order.count({ where: { status: 'DEVUELTO' } }),
+      this.prisma.order.count({ where: { status: 'EN_PREPARACION' } }),
+      this.prisma.order.count({ where: { status: 'ENVIADO' } }),
+      this.prisma.order.count({ where: { status: 'RECIBIDO' } }),
+    ]);
 
-    const revenue = await this.prisma.order.aggregate({
-      where: { status: { notIn: ['CANCELLED', 'RETURNED'] } },
+    const ingresos = await this.prisma.order.aggregate({
+      where: { status: { notIn: ['CANCELADO', 'DEVUELTO'] } },
       _sum: { totalCents: true },
     });
 
     return {
       total,
-      received,
-      preparing,
-      shipped,
-      delivered,
-      cancelled,
-      returned,
-      revenueCents: revenue._sum.totalCents ?? 0,
+      recibidos,
+      enPreparacion,
+      enviados,
+      entregados,
+      cancelados,
+      devueltos,
+      ingresosCentavos: ingresos._sum.totalCents ?? 0,
     };
   }
 }

@@ -85,9 +85,9 @@ model Order {
   subtotalCents    Int
   shippingCents    Int
   totalCents       Int
-  paymentMethod    String   @default("COD")
+  paymentMethod    String   @default("CONTRAENTREGA")
   acceptedTermsAt  DateTime
-  status           String   @default("RECEIVED")
+  status           String   @default("RECIBIDO")
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   items            OrderItem[]

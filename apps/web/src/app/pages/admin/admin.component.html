@@ -26,10 +26,11 @@
     @if (metrics(); as m) {
       <div class="metrics">
         <article><span>Pedidos</span><strong>{{ m['total'] }}</strong></article>
-        <article><span>Entregados</span><strong>{{ m['delivered'] }}</strong></article>
-        <article><span>Cancelados</span><strong>{{ m['cancelled'] }}</strong></article>
-        <article><span>Devoluciones</span><strong>{{ m['returned'] }}</strong></article>
-        <article><span>Ingresos</span><strong>{{ m['revenueCents'] | cop }}</strong></article>
+        <article><span>Recibidos</span><strong>{{ m['recibidos'] }}</strong></article>
+        <article><span>Entregados</span><strong>{{ m['entregados'] }}</strong></article>
+        <article><span>Cancelados</span><strong>{{ m['cancelados'] }}</strong></article>
+        <article><span>Devoluciones</span><strong>{{ m['devueltos'] }}</strong></article>
+        <article><span>Ingresos</span><strong>{{ m['ingresosCentavos'] | cop }}</strong></article>
       </div>
     }
 
@@ -39,11 +40,11 @@
         <div class="row">
           <div>
             <strong>{{ p.name }}</strong>
-            <p>{{ p.priceCents | cop }} · stock {{ p.stock }}</p>
+            <p>{{ p.priceCents | cop }} · inventario {{ p.stock }}</p>
           </div>
           <div class="edits">
             <input type="number" [value]="p.priceCents / 100" (change)="savePrice(p, $any($event.target).value)" placeholder="Precio COP" />
-            <input type="number" [value]="p.stock" (change)="saveStock(p, $any($event.target).value)" placeholder="Stock" />
+            <input type="number" [value]="p.stock" (change)="saveStock(p, $any($event.target).value)" placeholder="Inventario" />
           </div>
         </div>
       }
@@ -59,10 +60,11 @@
             <p class="muted">{{ o.addressLine }} · {{ o.status }}</p>
           </div>
           <div class="actions">
-            <button type="button" (click)="setStatus(o.id, 'PREPARING')">Preparar</button>
-            <button type="button" (click)="setStatus(o.id, 'SHIPPED')">Enviar</button>
-            <button type="button" (click)="setStatus(o.id, 'DELIVERED')">Entregar</button>
-            <button type="button" (click)="setStatus(o.id, 'CANCELLED')">Cancelar</button>
+            <button type="button" (click)="setStatus(o.id, 'EN_PREPARACION')">Preparar</button>
+            <button type="button" (click)="setStatus(o.id, 'ENVIADO')">Enviar</button>
+            <button type="button" (click)="setStatus(o.id, 'ENTREGADO')">Entregar</button>
+            <button type="button" (click)="setStatus(o.id, 'CANCELADO')">Cancelar</button>
+            <button type="button" (click)="setStatus(o.id, 'DEVUELTO')">Devolver</button>
           </div>
         </div>
       }

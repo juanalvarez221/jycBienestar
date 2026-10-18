@@ -71,27 +71,29 @@ async function main() {
     }
   }
 
+  const producto = {
+    sku: 'PSX-500',
+    name: 'Power Sex Jarabe 500 ml',
+    slug: 'power-sex-jarabe-500ml',
+    tagline: 'Energía después del camello',
+    description:
+      'Presentación en jarabe de 500 ml pensada para quienes buscan recuperar ritmo al final del día. Una opción de bienestar para el hogar, con entrega discreta a domicilio en Medellín y el Valle de Aburrá.',
+    netContent: '500 ml',
+    ingredients:
+      'Consultar información del envase y del fabricante. Los datos de composición se actualizan según la etiqueta del lote comercializado.',
+    usageText:
+      'Siga las indicaciones de uso impresas en la etiqueta del producto. No exceda la porción sugerida por el fabricante.',
+    manufacturer: 'Según rotulado del envase',
+    priceCents: 89000,
+    stock: 50,
+    imageUrl: '/assets/product-placeholder.svg',
+    active: true,
+  };
+
   await prisma.product.upsert({
     where: { slug: 'power-sex-jarabe-500ml' },
-    update: {},
-    create: {
-      sku: 'PSX-500',
-      name: 'Power Sex Jarabe 500 ml',
-      slug: 'power-sex-jarabe-500ml',
-      tagline: 'Energía después del camello',
-      description:
-        'Presentación en jarabe de 500 ml pensada para quienes buscan recuperar ritmo al final del día. Una opción de bienestar para el hogar, con entrega discreta a domicilio en Medellín y el Valle de Aburrá.',
-      netContent: '500 ml',
-      ingredients:
-        'Consultar información del envase y del fabricante. Los datos de composición se actualizan según la etiqueta del lote comercializado.',
-      usageText:
-        'Siga las indicaciones de uso impresas en la etiqueta del producto. No exceda la porción sugerida por el fabricante.',
-      manufacturer: 'Según rotulado del envase',
-      priceCents: 89000,
-      stock: 50,
-      imageUrl: '/assets/product-placeholder.svg',
-      active: true,
-    },
+    update: producto,
+    create: producto,
   });
 
   const password = process.env.ADMIN_PASSWORD || 'CambiaEsto123!';
