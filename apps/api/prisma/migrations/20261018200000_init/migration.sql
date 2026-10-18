@@ -1,4 +1,4 @@
-﻿-- CreateTable
+-- CreateTable
 CREATE TABLE "Product" (
     "id" TEXT NOT NULL,
     "sku" TEXT NOT NULL,

@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  // Mismo dominio vía proxy de Vercel → API en Render
+  // Proxy en Vercel (vercel.json) → API Render. Si despliegas sin proxy, usa la URL absoluta.
   apiUrl: '/api',
 };
