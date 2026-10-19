@@ -1,0 +1,41 @@
+:root {
+  --ivory: #fdfbf7;
+  --ivory-deep: #f4efe6;
+  --ink: #1c1916;
+  --ink-soft: #4a433a;
+  --forest: #0f2a1f;
+  --forest-mid: #163528;
+  --petrol: #1a3f3a;
+  --petrol-soft: #2a5550;
+  --carbon: #1c1916;
+  --carbon-soft: #2a2622;
+  --champagne: #c5a880;
+  --champagne-deep: #8f734e;
+  --champagne-bright: #e3d4bf;
+  --mist: rgba(28, 25, 22, 0.62);
+  --line: rgba(143, 115, 78, 0.16);
+  --gold-line: rgba(143, 115, 78, 0.1);
+  --danger: #8d2c2c;
+  --ok: #2f6b4f;
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 5.5rem;
+  --space-9: 8.5rem;
+
+  --radius-sm: 0;
+  --radius: 0;
+  --max: 1120px;
+  --ticker-h: 1.85rem;
+  --header-h: calc(7.4rem + env(safe-area-inset-top));
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}

@@ -1,0 +1,20 @@
+{
+  "name": "jyc-bienestar",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:api": "npm run start:dev --prefix apps/api",
+    "dev:web": "npm run start --prefix apps/web",
+    "build": "npm run build --prefix apps/api && npm run build --prefix apps/web",
+    "db:seed": "npm run prisma:seed --prefix apps/api",
+    "db:wipe": "npm run prisma:wipe --prefix apps/api",
+    "test:api": "npm test --prefix apps/api -- --testPathPatterns=create-order.dto.spec",
+    "test:pytest": "python -m pytest tests -v"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "framer-motion": "^14.3.0",
+    "lucide-react": "^1.59.0",
+    "tailwind-merge": "^3.7.0"
+  }
+}

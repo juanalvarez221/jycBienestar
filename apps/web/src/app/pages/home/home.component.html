@@ -1,0 +1,358 @@
+<section class="hero" id="producto">
+  <div class="container hero-grid">
+    <figure
+      class="portrait rise"
+      (pointermove)="zoomPhoto($event)"
+      (pointerleave)="resetPhoto($event)"
+      (pointercancel)="resetPhoto($event)"
+    >
+      <img
+        [src]="product()?.imageUrl || '/assets/power-sex-jarabe-500.png'"
+        [alt]="title()"
+      />
+    </figure>
+
+    <div class="hero-copy">
+      <p class="wordmark">JyC Bienestar</p>
+      <h1 class="hero-title" [attr.aria-label]="title()">
+        @for (word of titleWords(); track title() + '-' + $index) {
+          <span class="kinetic-word" aria-hidden="true" [style.--i]="$index">{{ word }}</span>
+        }
+      </h1>
+      <p class="tagline">
+        {{ product()?.tagline || 'Energía después del camello' }}
+      </p>
+      <p class="price">
+        <span class="was">{{ compareCents * quantity() | cop }}</span>
+        <span class="now">{{ lineTotal() | cop }}</span>
+        <span class="offer">Oferta</span>
+      </p>
+      <div class="pick">
+        <p class="pick-label">Unidades</p>
+        <app-qty [value]="quantity()" [max]="stockCap()" (changed)="quantity.set($event)" />
+      </div>
+      <div class="cta-row">
+        <button class="btn btn-primary" type="button" [disabled]="!canBuy()" (click)="buy()">
+          Comprar ahora
+        </button>
+        <a class="btn btn-ghost" href="#descripcion">Ver descripción</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="descripcion">
+  <div class="container story-layout">
+    <header class="story-intro">
+      <p class="eyebrow">Descripción</p>
+      <h2 class="story-title">El jarabe, a fondo</h2>
+      <p class="story-lead">
+        Power Sex es una bebida de {{ product()?.netContent || '500 ml' }} para tener en casa.
+        Agua, extracto de malta, chontaduro y borojó: una fórmula densa, de sabor propio, pensada
+        para cuando el día ya pidió demasiado y se busca ánimo, no un discurso.
+      </p>
+    </header>
+    <div class="asks">
+      <article
+        class="ask"
+        [class.is-open]="askOpen() === 0"
+        (pointerenter)="peekAsk(0, $event)"
+        (pointerleave)="leaveAsk()"
+      >
+        <button type="button" class="ask-q" (click)="toggleAsk(0)">
+          ¿Qué es Power Sex Jarabe?
+        </button>
+        <div class="ask-a">
+          <div class="ask-a-inner">
+            <p>
+              Es un jarabe listo para servir, en envase de {{ product()?.netContent || '500 ml' }}.
+              No es un concentrado para diluir ni un medicamento. Es una bebida de mesa: se abre,
+              se toma según la etiqueta y se guarda en casa.
+            </p>
+            <p>
+              La mezcla se sostiene en cuatro partes: agua, extracto de malta, pulpa de chontaduro
+              y borojó. El resultado es un líquido con cuerpo, dulzor de cereal y un carácter de
+              fruto del Pacífico. Está hecho para el uso cotidiano, con empaque cerrado y pago al
+              recibir.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article
+        class="ask"
+        [class.is-open]="askOpen() === 1"
+        (pointerenter)="peekAsk(1, $event)"
+        (pointerleave)="leaveAsk()"
+      >
+        <button type="button" class="ask-q" (click)="toggleAsk(1)">
+          ¿Qué se busca con tomarlo?
+        </button>
+        <div class="ask-a">
+          <div class="ask-a-inner">
+            <p>
+              Recuperar un poco de empuje cuando el cuerpo ya trabajó. Quienes lo piden hablan de
+              más ánimo, de sentirse más despiertos, de no quedar tan apagados después del camello.
+              Eso es una experiencia personal: el organismo de cada quien responde distinto.
+            </p>
+            <p>
+              No promete un milagro ni sustituye descanso, comida o consulta. Es un apoyo de
+              despensa, para el momento en que se quiere algo concreto en el vaso y seguir el día
+              con otra energía.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article
+        class="ask"
+        [class.is-open]="askOpen() === 2"
+        (pointerenter)="peekAsk(2, $event)"
+        (pointerleave)="leaveAsk()"
+      >
+        <button type="button" class="ask-q" (click)="toggleAsk(2)">
+          ¿Qué hace el extracto de malta en la fórmula?
+        </button>
+        <div class="ask-a">
+          <div class="ask-a-inner">
+            <p>
+              La malta es la base. Le da densidad, un dulzor de cereal y esa sensación de bebida
+              con peso, no de agua con sabor. Sostiene el resto de la mezcla y hace que el trago se
+              sienta completo.
+            </p>
+            <p>
+              En la copa se nota como cuerpo: cubre la boca, baja redondo y deja el jarabe fácil de
+              tomar sin quedar aguado. Es el cimiento sobre el que se apoyan el chontaduro y el
+              borojó.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article
+        class="ask"
+        [class.is-open]="askOpen() === 3"
+        (pointerenter)="peekAsk(3, $event)"
+        (pointerleave)="leaveAsk()"
+      >
+        <button type="button" class="ask-q" (click)="toggleAsk(3)">
+          ¿Qué aporta el chontaduro?
+        </button>
+        <div class="ask-a">
+          <div class="ask-a-inner">
+            <p>
+              El chontaduro es fruto del Pacífico, de pulpa densa y sabor que no se disimula. En
+              esta fórmula marca el carácter: le quita lo genérico al jarabe y lo deja con
+              identidad de palma, no de esencia de laboratorio.
+            </p>
+            <p>
+              Quienes lo conocen lo asocian con comida de tierra caliente, con algo que llena y
+              sostiene. Aquí trabaja esa misma idea: una nota espesa, nutritiva en el sentido de
+              alimento, que se siente en el trago y acompaña el ánimo del día.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article
+        class="ask"
+        [class.is-open]="askOpen() === 4"
+        (pointerenter)="peekAsk(4, $event)"
+        (pointerleave)="leaveAsk()"
+      >
+        <button type="button" class="ask-q" (click)="toggleAsk(4)">
+          ¿Qué aporta el borojó?
+        </button>
+        <div class="ask-a">
+          <div class="ask-a-inner">
+            <p>
+              El borojó es un fruto pequeño y muy concentrado, también del Pacífico. Cierra la
+              fórmula: aporta profundidad, un punto ácido-dulce y esa impresión de mezcla “de
+              verdad”, no diluida.
+            </p>
+            <p>
+              En la tradición de la región se toma por su carácter intenso. En el jarabe equilibra
+              la malta y el chontaduro, redondea el sabor y deja un final más largo. Es la pieza
+              que hace que el conjunto no se quede plano.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article
+        class="ask"
+        [class.is-open]="askOpen() === 5"
+        (pointerenter)="peekAsk(5, $event)"
+        (pointerleave)="leaveAsk()"
+      >
+        <button type="button" class="ask-q" (click)="toggleAsk(5)">
+          ¿Cómo se toma y cómo se guarda?
+        </button>
+        <div class="ask-a">
+          <div class="ask-a-inner">
+            <p>
+              {{
+                product()?.usageText ||
+                  'Siga las indicaciones de uso impresas en la etiqueta. No exceda la porción sugerida.'
+              }}
+            </p>
+            <p>
+              El envase cerrado se guarda en un lugar fresco, lejos del sol directo. Una vez
+              abierto, ciérrelo bien y consúmalo en un tiempo razonable. No lo mezcle con alcohol
+              ni lo dé a menores. Si hay una condición de salud, embarazo o medicamentos de
+              rutina, consulte antes de usarlo.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article
+        class="ask"
+        [class.is-open]="askOpen() === 6"
+        (pointerenter)="peekAsk(6, $event)"
+        (pointerleave)="leaveAsk()"
+      >
+        <button type="button" class="ask-q" (click)="toggleAsk(6)">
+          ¿Qué llega en el pedido?
+        </button>
+        <div class="ask-a">
+          <div class="ask-a-inner">
+            <p>
+              Un envase de {{ product()?.netContent || '500 ml' }}, cerrado, en caja discreta. Paga
+              cuando lo recibe. En Medellín, Bello, Itagüí, Envigado, Sabaneta, La Estrella,
+              Copacabana y Girardota el envío no tiene costo. En el resto del país el envío vale
+              aproximadamente $10.000.
+            </p>
+            <p>
+              Revise el sello delante de quien entrega. Si el empaque viene golpeado o abierto, no
+              lo reciba y avísenos. El producto que sale es el que está en esta ficha: mismo
+              contenido, misma fórmula.
+            </p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="reviews" id="resenas">
+  <div class="container">
+    <div class="reviews-head">
+      <div>
+        <p class="eyebrow">En sus palabras</p>
+        <h2 class="words-title">Palabras de quienes ya lo han usado</h2>
+      </div>
+      <p class="score" aria-label="4,9 estrellas. Más de 100 personas hablaron de nosotros">
+        <span class="score-num">4,9</span>
+        <span class="score-stars" aria-hidden="true">
+          @for (star of starSlots; track star) {
+            <span [class.on]="star <= 5">★</span>
+          }
+        </span>
+        <span class="score-meta">+100 personas hablaron de nosotros</span>
+      </p>
+    </div>
+  </div>
+  <ul class="sr-only">
+    @for (review of reviews; track review.name + review.place) {
+      <li>{{ review.name }}, {{ review.place }}. {{ review.stars }} de 5. {{ review.text }}</li>
+    }
+  </ul>
+  @if (motionOk) {
+    <div class="wall-stage" #wallStage>
+      <div class="container wall-frame">
+        <ol class="wall" aria-hidden="true">
+          @for (note of wallNotes(); track note.place) {
+            <li
+              class="note"
+              [style.--tilt]="note.tilt"
+              [style.--tape]="note.tape"
+              [style.z-index]="note.leaving ? 40 : note.place + 1"
+            >
+              <div class="note-ghost"></div>
+              @for (card of [note]; track card.key) {
+                <article
+                  class="note-card"
+                  [attr.data-motion]="card.motion"
+                  [class.is-leaving]="card.leaving"
+                >
+                  <ng-container
+                    [ngTemplateOutlet]="noteBody"
+                    [ngTemplateOutletContext]="{ $implicit: reviewAt(card.reviewIndex) }"
+                  />
+                </article>
+              }
+            </li>
+          }
+        </ol>
+      </div>
+    </div>
+  } @else {
+    <div class="container">
+      <ol class="review-list">
+        @for (review of reviews; track review.name + review.place) {
+          <li>
+            <ng-container
+              [ngTemplateOutlet]="noteBody"
+              [ngTemplateOutletContext]="{ $implicit: review }"
+            />
+          </li>
+        }
+      </ol>
+    </div>
+  }
+</section>
+
+<ng-template #noteBody let-review>
+  <p class="stars" [attr.aria-label]="review.stars + ' de 5'">
+    @for (star of starSlots; track star) {
+      <span [class.on]="star <= review.stars">★</span>
+    }
+  </p>
+  <blockquote>{{ review.text }}</blockquote>
+  <p class="who">
+    @if (review.photo) {
+      <img class="avatar avatar-photo" [src]="review.photo" [alt]="''" loading="lazy" width="40" height="40" />
+    } @else {
+      <span class="avatar" [style.background]="avatarColor(review.name)" aria-hidden="true">
+        {{ initials(review.name) }}
+      </span>
+    }
+    <span>{{ review.name }} · {{ review.place }}</span>
+  </p>
+</ng-template>
+
+<section class="close" id="comprar">
+  <div class="container">
+    <p class="eyebrow">El próximo</p>
+    <h2 class="close-title">¿Hasta cuándo vas a permitir que el agotamiento te dañe la vida que quieres?</h2>
+    <p class="close-lead">
+      Lo que estás esperando para probarlo, otros ya lo pidieron. Sé el próximo.
+      Un mensaje y llega a tu casa.
+    </p>
+    <div class="close-actions">
+      <div class="pick">
+        <p class="pick-label">Unidades</p>
+        <app-qty [value]="quantity()" [max]="stockCap()" (changed)="quantity.set($event)" />
+      </div>
+      <button class="btn btn-primary" type="button" [disabled]="!canBuy()" (click)="buy()">
+        Quiero probarlo
+      </button>
+      <a class="btn btn-whatsapp" [href]="whatsappHref" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            fill="currentColor"
+            d="M20.5 3.5A11 11 0 0 0 2.1 17.8L1 23l5.3-1.1A11 11 0 0 0 12 23a11 11 0 0 0 8.5-19.5zM12 21a9 9 0 0 1-4.6-1.3l-.3-.2-3.1.7.7-3-.2-.3A9 9 0 1 1 12 21zm5-6.7c-.3-.1-1.6-.8-1.8-.9s-.4-.1-.6.1-.7.9-.8 1-.3.2-.6.1a7.4 7.4 0 0 1-2.2-1.4 8 8 0 0 1-1.5-1.9c-.2-.3 0-.4.1-.6l.4-.5.2-.3a2 2 0 0 0 0-.5c0-.1-.6-1.4-.8-1.9s-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 12 12 0 0 0 4.5 4 15 15 0 0 0 1.5.6 3.6 3.6 0 0 0 1.7.1 2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3z"
+          />
+        </svg>
+        Escribir por WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="dock">
+  <div>
+    <strong>{{ lineTotal() | cop }}</strong>
+    <span class="was">{{ compareCents * quantity() | cop }}</span>
+    <span>{{ quantity() }} × {{ product()?.netContent || '500 ml' }}</span>
+  </div>
+  <app-qty [value]="quantity()" [max]="stockCap()" (changed)="quantity.set($event)" />
+  <button class="btn btn-primary" type="button" [disabled]="!canBuy()" (click)="buy()">
+    Comprar
+  </button>
+</div>

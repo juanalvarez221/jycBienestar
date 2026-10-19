@@ -1,0 +1,205 @@
+/* damping 25, stiffness 180, mass 1 — settles at 506ms */
+:root {
+  --spring-damping: 25;
+  --spring-stiffness: 180;
+  --spring-duration: 506ms;
+  --spring: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --spring: linear(
+      0,
+      0.1131,
+      0.3234,
+      0.5271,
+      0.6892,
+      0.8055,
+      0.8836,
+      0.9332,
+      0.9634,
+      0.9809,
+      0.9907,
+      0.9959,
+      1
+    );
+    --ease: var(--spring);
+  }
+}
+
+@keyframes kinetic-in {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+@keyframes spacing-in {
+  from {
+    letter-spacing: 0.72em;
+    filter: blur(10px);
+    opacity: 0;
+  }
+  to {
+    letter-spacing: 0.2em;
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+@keyframes presence-out {
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@keyframes presence-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@keyframes orb-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(4%, -6%, 0) scale(1.08);
+  }
+}
+
+.wordmark {
+  display: inline-block;
+  margin: 0 0 1.25rem;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--champagne-deep);
+  animation: spacing-in 900ms var(--spring) both;
+}
+
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .wordmark {
+    background-image: linear-gradient(102deg, #8f734e 0%, #e3d4bf 48%, #c5a880 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.kinetic-word {
+  display: inline-block;
+  margin-right: 0.24em;
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(0.42em);
+  animation: kinetic-in var(--spring-duration) var(--spring) forwards;
+  animation-delay: calc(var(--i, 0) * 72ms + 120ms);
+}
+
+.kinetic-word:last-child {
+  margin-right: 0;
+}
+
+.blur-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 42%, transparent 0 22%, #000 68%);
+  mask-image: radial-gradient(ellipse at 50% 42%, transparent 0 22%, #000 68%);
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.55;
+  animation: orb-drift 22s ease-in-out infinite alternate;
+}
+
+.orb-a {
+  width: min(46vw, 34rem);
+  height: min(46vw, 34rem);
+  top: -12%;
+  right: -8%;
+  background: #e3d4bf;
+}
+
+.orb-b {
+  width: min(38vw, 28rem);
+  height: min(38vw, 28rem);
+  left: -10%;
+  bottom: 8%;
+  background: #c5a880;
+  opacity: 0.28;
+  animation-duration: 28s;
+  animation-direction: alternate-reverse;
+}
+
+.orb-c {
+  width: min(24vw, 18rem);
+  height: min(24vw, 18rem);
+  top: 38%;
+  left: 32%;
+  background: #f4efe6;
+  opacity: 0.9;
+  animation-duration: 18s;
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  opacity: 0.45;
+  background: repeating-linear-gradient(
+    -16deg,
+    transparent,
+    transparent 80px,
+    rgba(143, 115, 78, 0.045) 80px,
+    rgba(143, 115, 78, 0.045) 81px
+  );
+  mask-image: radial-gradient(ellipse at 50% 30%, #000 10%, transparent 72%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    transition: clip-path 860ms var(--spring);
+  }
+
+  .reveal:not(.is-revealed) {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  .reveal.is-revealed {
+    clip-path: inset(0 0 0 0);
+  }
+
+  ::view-transition-old(page) {
+    animation: presence-out 420ms var(--spring) both;
+  }
+
+  ::view-transition-new(page) {
+    animation: presence-in 560ms var(--spring) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wordmark,
+  .kinetic-word,
+  .orb,
+  .rise {
+    animation: none;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+
+  .wordmark {
+    letter-spacing: 0.2em;
+  }
+}

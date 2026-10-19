@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: jyc-bienestar-api
+    runtime: docker
+    dockerfilePath: ./apps/api/Dockerfile
+    dockerContext: ./apps/api
+    plan: free
+    region: oregon
+    healthCheckPath: /api/products
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
+      - key: FRONTEND_URL
+        value: https://jycbienestar.com,https://www.jycbienestar.com
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        value: admin@jycbienestar.com
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: DATABASE_URL
+        sync: false

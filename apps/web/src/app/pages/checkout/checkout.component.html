@@ -1,0 +1,156 @@
+<section class="page container">
+  <header class="intro">
+    <p class="eyebrow">Pedido</p>
+    <h1>Tus datos. Llega a la puerta.</h1>
+    <p>Empaque cerrado. Pagas cuando lo recibes, sin pago en línea.</p>
+  </header>
+
+  <div class="layout">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="sheet">
+      <fieldset class="chapter">
+        <legend class="sr-only">Quién recibe</legend>
+        <p class="chapter-title"><span>01</span> Quién recibe</p>
+        <div class="field" [class.is-invalid]="invalid('customerName')">
+          <label for="name">Nombre completo</label>
+          <input
+            id="name"
+            formControlName="customerName"
+            autocomplete="name"
+            placeholder="Como figura en la portería"
+          />
+        </div>
+        <div class="row">
+          <div class="field" [class.is-invalid]="invalid('customerPhone')">
+            <label for="phone">Celular</label>
+            <input
+              id="phone"
+              formControlName="customerPhone"
+              autocomplete="tel"
+              inputmode="tel"
+              placeholder="300 000 0000"
+            />
+          </div>
+          <div class="field" [class.is-invalid]="invalid('customerEmail')">
+            <label for="email">Correo <em>opcional</em></label>
+            <input
+              id="email"
+              type="email"
+              formControlName="customerEmail"
+              autocomplete="email"
+              placeholder="Para el comprobante"
+            />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="chapter">
+        <legend class="sr-only">A dónde llega</legend>
+        <p class="chapter-title"><span>02</span> A dónde llega</p>
+        <div class="field" [class.is-invalid]="invalid('addressLine')">
+          <label for="address">Dirección</label>
+          <input
+            id="address"
+            formControlName="addressLine"
+            autocomplete="street-address"
+            placeholder="Calle, número, apartamento"
+          />
+        </div>
+        <div class="field">
+          <label for="barrio">Barrio</label>
+          <input id="barrio" formControlName="neighborhood" placeholder="Laureles, Envigado, Bello…" />
+        </div>
+        <div class="row">
+          <div class="field" [class.is-invalid]="invalid('departmentCode')">
+            <label for="depto">Departamento</label>
+            <select id="depto" formControlName="departmentCode">
+              @for (d of departments(); track d.code) {
+                <option [value]="d.code">{{ d.name }}</option>
+              }
+            </select>
+          </div>
+          <div class="field" [class.is-invalid]="invalid('municipalityCode')">
+            <label for="muni">Municipio</label>
+            <select id="muni" formControlName="municipalityCode">
+              <option value="" disabled>Selecciona</option>
+              @for (m of municipalities(); track m.code) {
+                <option [value]="m.code">{{ m.name }}</option>
+              }
+            </select>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="chapter">
+        <legend class="sr-only">Para el mensajero</legend>
+        <p class="chapter-title"><span>03</span> Para el mensajero</p>
+        <div class="field">
+          <label for="notes">Notas para la entrega</label>
+          <textarea
+            id="notes"
+            rows="3"
+            formControlName="notes"
+            placeholder="Portería, horario o una referencia"
+          ></textarea>
+        </div>
+        <label class="terms" [class.is-invalid]="invalid('acceptedTerms')">
+          <input type="checkbox" formControlName="acceptedTerms" />
+          <span>
+            Acepto los
+            <button type="button" class="legal-link" (click)="openLegal($event)">
+              términos, condiciones y privacidad
+            </button>
+            de JyC Bienestar.
+          </span>
+        </label>
+      </fieldset>
+
+      @if (error()) {
+        <p class="form-error" role="alert">{{ error() }}</p>
+      }
+
+      <button class="btn btn-primary submit" type="submit" [disabled]="submitting()">
+        {{ submitting() ? 'Enviando…' : 'Confirmar pedido' }}
+      </button>
+    </form>
+
+    <aside class="ticket">
+      <p class="eyebrow">Resumen</p>
+      <h2>Lo que sale hoy</h2>
+      @for (item of cart.items(); track item.product.id) {
+        <article class="ticket-item">
+          <img
+            [src]="item.product.imageUrl || '/assets/power-sex-jarabe-500.png'"
+            [alt]="item.product.name"
+          />
+          <div>
+            <p>{{ item.product.name }}</p>
+            <strong>{{ item.product.priceCents * item.quantity | cop }}</strong>
+            <app-qty
+              [value]="item.quantity"
+              [max]="item.product.stock || 1"
+              (changed)="cart.setQuantity(item.product.id, $event, item.product)"
+            />
+          </div>
+        </article>
+      }
+      <div class="line">
+        <span>Envío {{ shipping()?.zoneLabel || '' }}</span>
+        <strong>
+          @if ((shipping()?.feeCents ?? 0) === 0) {
+            Gratis
+          } @else {
+            {{ shipping()?.feeCents ?? 0 | cop }}
+          }
+        </strong>
+      </div>
+      @if (shipping()?.etaLabel) {
+        <p class="eta">{{ shipping()?.etaLabel }}</p>
+      }
+      <div class="total">
+        <span>Total</span>
+        <strong>{{ totalCents() | cop }}</strong>
+      </div>
+      <p class="seal">Pagas al recibir</p>
+    </aside>
+  </div>
+</section>

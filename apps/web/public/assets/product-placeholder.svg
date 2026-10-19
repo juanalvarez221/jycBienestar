@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#143028"/>
+  <rect x="248" y="168" width="304" height="690" rx="28" fill="#1A3F3A" stroke="#C4A574" stroke-width="3"/>
+  <rect x="300" y="118" width="200" height="78" rx="10" fill="#C4A574"/>
+  <rect x="332" y="86" width="136" height="42" rx="8" fill="#E8D7B0"/>
+  <rect x="286" y="250" width="228" height="250" rx="6" fill="#10241C"/>
+  <text x="400" y="318" text-anchor="middle" fill="#C4A574" font-family="Georgia, serif" font-size="28">J&amp;C</text>
+  <text x="400" y="368" text-anchor="middle" fill="#F3EEE4" font-family="Georgia, serif" font-size="40">Power Sex</text>
+  <text x="400" y="418" text-anchor="middle" fill="#D4B896" font-family="Georgia, serif" font-size="22">Jarabe</text>
+  <text x="400" y="620" text-anchor="middle" fill="#F3EEE4" font-family="Arial, sans-serif" font-size="28" letter-spacing="4">500 ml</text>
+  <circle cx="400" cy="730" r="36" fill="none" stroke="#C4A574" stroke-width="2"/>
+</svg>
