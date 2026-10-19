@@ -7,9 +7,12 @@ if [ -z "$DATABASE_URL" ] || [ "$DATABASE_URL" = "file:./dev.db" ]; then
   export DATABASE_URL="file:/app/data/prod.db"
 fi
 
-echo "DATABASE_URL provider ready"
-echo "Syncing schema (db push)..."
-npx prisma db push --skip-generate --accept-data-loss
+echo "DATABASE_URL ready"
+echo "Applying migrations..."
+if ! npx prisma migrate deploy; then
+  echo "migrate deploy failed — falling back to db push"
+  npx prisma db push --skip-generate --accept-data-loss
+fi
 
 echo "Seeding admins and catalog (safe to re-run)..."
 if npx ts-node --transpile-only prisma/seed.ts; then
@@ -20,4 +23,4 @@ else
 fi
 
 echo "Starting API..."
-node dist/main.js
+exec node dist/main.js
