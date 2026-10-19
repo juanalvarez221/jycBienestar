@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  // Local: SQLite. Producción (Neon/Render): cambia a "postgresql" y usa tu DATABASE_URL de Neon.
-  provider = "sqlite"
+  // Producción: Neon/Render PostgreSQL. Local: docker-compose o Neon.
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
