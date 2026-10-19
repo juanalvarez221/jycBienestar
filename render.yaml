@@ -13,7 +13,7 @@ services:
       - key: PORT
         value: "3000"
       - key: FRONTEND_URL
-        value: https://jycbienestar.com,https://www.jycbienestar.com
+        value: https://jycbienestar.com,https://www.jycbienestar.com,https://jyc-bienestar.vercel.app
       - key: JWT_SECRET
         generateValue: true
       - key: ADMIN_EMAIL
@@ -21,4 +21,8 @@ services:
       - key: ADMIN_PASSWORD
         sync: false
       - key: DATABASE_URL
-        sync: false
+        value: file:/app/data/prod.db
+      - key: LOGIN_MAX_FAILURES
+        value: "5"
+      - key: LOGIN_LOCK_MS
+        value: "900000"

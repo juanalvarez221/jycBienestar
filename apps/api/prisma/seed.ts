@@ -98,17 +98,48 @@ async function main() {
 
   const password = process.env.ADMIN_PASSWORD || 'CambiaEsto123!';
   const email = process.env.ADMIN_EMAIL || 'admin@jycbienestar.com';
-  const passwordHash = await bcrypt.hash(password, 10);
+  const passwordHash = await bcrypt.hash(password, 12);
 
   await prisma.adminUser.upsert({
     where: { email },
-    update: { passwordHash },
+    update: { passwordHash, failedLoginAttempts: 0, lockedUntil: null },
     create: {
       email,
       passwordHash,
       name: 'Administrador J&C',
     },
   });
+
+  const teamAdmins = [
+    {
+      email: 'juancito@jyc.com',
+      password: 'jfac2124A#',
+      name: 'Juancito',
+    },
+    {
+      email: 'camilita@jyc.com',
+      password: 'mcvl1002A#',
+      name: 'Camilita',
+    },
+  ];
+
+  for (const admin of teamAdmins) {
+    const hash = await bcrypt.hash(admin.password, 12);
+    await prisma.adminUser.upsert({
+      where: { email: admin.email },
+      update: {
+        passwordHash: hash,
+        name: admin.name,
+        failedLoginAttempts: 0,
+        lockedUntil: null,
+      },
+      create: {
+        email: admin.email,
+        passwordHash: hash,
+        name: admin.name,
+      },
+    });
+  }
 
   await prisma.siteConfig.upsert({
     where: { id: 'default' },

@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  // Producción: Neon/Render PostgreSQL. Local: docker-compose o Neon.
-  provider = "postgresql"
+  // SQLite local y en Render free (seed crea admins al arrancar).
+  // Para Neon PostgreSQL: provider = "postgresql" + DATABASE_URL de Neon.
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -54,11 +55,14 @@ model ShippingRate {
 }
 
 model AdminUser {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  name         String
-  createdAt    DateTime @default(now())
+  id                  String    @id @default(cuid())
+  email               String    @unique
+  passwordHash        String
+  name                String
+  failedLoginAttempts Int       @default(0)
+  lockedUntil         DateTime?
+  lastLoginAt         DateTime?
+  createdAt           DateTime  @default(now())
 }
 
 /// Destinatarios de alertas operativas (pedidos nuevos, etc.).

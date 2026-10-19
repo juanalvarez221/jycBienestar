@@ -26,7 +26,12 @@ import { OPS_PATH, formatWhen, isUnauthorized } from './ops-format';
       <p class="ops-error">{{ error() }}</p>
     }
 
-    @if (metrics(); as m) {
+    @if (loading()) {
+      <section class="ops-panel">
+        <div class="ops-empty"><span class="ops-skeleton" style="width:12rem"></span></div>
+      </section>
+    } @else {
+      @if (metrics(); as m) {
       <section class="ops-stats">
         <article class="ops-stat">
           <span>Por atender</span>
@@ -168,6 +173,7 @@ import { OPS_PATH, formatWhen, isUnauthorized } from './ops-format';
           <p class="ops-muted">Sin eventos todavía.</p>
         }
       </section>
+      }
     }
   `,
 })
@@ -179,6 +185,7 @@ export class OpsMetricsComponent implements OnInit {
 
   readonly metrics = signal<OpsMetrics | null>(null);
   readonly error = signal<string | null>(null);
+  readonly loading = signal(true);
 
   ngOnInit() {
     this.load();
@@ -187,9 +194,14 @@ export class OpsMetricsComponent implements OnInit {
   load() {
     const token = this.auth.token();
     if (!token) return;
+    this.loading.set(true);
     this.api.adminMetrics(token).subscribe({
-      next: (metrics) => this.metrics.set(metrics),
+      next: (metrics) => {
+        this.metrics.set(metrics);
+        this.loading.set(false);
+      },
       error: (error) => {
+        this.loading.set(false);
         if (isUnauthorized(error)) this.auth.clear();
         else this.error.set('No se pudieron cargar las métricas.');
       },

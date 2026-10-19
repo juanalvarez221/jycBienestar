@@ -32,10 +32,13 @@ export const routes: Routes = [
       { path: 'pedidos/:id', component: OpsOrderComponent },
       { path: 'metricas', component: OpsMetricsComponent },
       { path: 'productos', component: OpsProductsComponent },
+      { path: 'productos/:id', component: OpsProductsComponent },
       { path: 'correos', component: OpsEmailsComponent },
       { path: 'carritos', component: OpsCartsComponent },
       { path: 'clientes', component: OpsCustomersComponent },
       { path: 'clientes/:phoneKey', component: OpsCustomerComponent },
+      // Rutas desconocidas del panel → inicio admin (nunca a la tienda pública).
+      { path: '**', redirectTo: '' },
     ],
   },
   { path: '**', redirectTo: '' },

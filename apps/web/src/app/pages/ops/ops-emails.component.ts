@@ -62,7 +62,9 @@ import { formatWhen, isUnauthorized } from './ops-format';
           <h2>Destinatarios</h2>
           <span class="ops-muted" style="margin:0">{{ emails().length }}</span>
         </div>
-        @if (emails().length === 0) {
+        @if (loading()) {
+          <div class="ops-empty"><span class="ops-skeleton" style="width:10rem"></span></div>
+        } @else if (emails().length === 0) {
           <div class="ops-empty">
             <strong>Sin destinatarios</strong>
             <span>Agrega al menos uno para recibir pedidos nuevos.</span>
@@ -119,6 +121,7 @@ export class OpsEmailsComponent implements OnInit {
   readonly editingId = signal<string | null>(null);
   readonly saving = signal(false);
   readonly testing = signal(false);
+  readonly loading = signal(true);
   readonly error = signal<string | null>(null);
   readonly ok = signal<string | null>(null);
 
@@ -135,9 +138,16 @@ export class OpsEmailsComponent implements OnInit {
   load() {
     const token = this.auth.token();
     if (!token) return;
+    this.loading.set(true);
     this.api.adminNotifyEmails(token).subscribe({
-      next: (rows) => this.emails.set(rows),
-      error: (error) => this.fail(error),
+      next: (rows) => {
+        this.emails.set(rows);
+        this.loading.set(false);
+      },
+      error: (error) => {
+        this.loading.set(false);
+        this.fail(error);
+      },
     });
   }
 

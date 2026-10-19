@@ -177,7 +177,7 @@ export class ApiService {
   }
 
   updateProduct(token: string, id: string, data: Partial<Product>) {
-    return this.http.patch(`${this.base}/admin/products/${id}`, data, {
+    return this.http.patch<Product>(`${this.base}/admin/products/${id}`, data, {
       ...this.authHeaders(token),
     });
   }
